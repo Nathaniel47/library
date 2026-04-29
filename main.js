@@ -48,20 +48,58 @@ function addBookToLibrary(title, author, pages, readflag){
 
     const newCard = document.createElement("div")
 
-    newCard.textContent = `${newBook.title} by ${newBook.author}. ${newBook.readflag}`;
+    const info = document.createElement("p");
+    info.textContent = `${newBook.title} by ${newBook.author}. ${newBook.readflag}`;
+
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "Remove";
+    removeBtn.classList.add("removeBtn");
+
+
+    newCard.appendChild(info);
+    newCard.appendChild(removeBtn);
 
     newCard.classList.add("bookCard");
+    newCard.dataset.id = newBook.id
 
     display.appendChild(newCard);
 };
 
 const display = document.getElementById("display");
 
+//Add eventListener to remove a book
+display.addEventListener("click", (e) => {
+    if (e.target.classList.contains("removeBtn")){
+        //get the book id
+        const bookId = e.target.parentElement.dataset.id;
+
+        //use book ID to find and retrieve book index in array
+        const bookIndex = libraryBooks.findIndex(book => book.id == bookId);
+
+        //use book index in aray to remove from array
+        libraryBooks.splice(bookIndex, 1);
+
+        //remove book
+        e.target.parentElement.remove();
+    }
+})
+
 for(let i = 0;i<libraryBooks.length;i++){
     const newCard = document.createElement("div");
-    newCard.textContent = `${libraryBooks[i].title} by ${libraryBooks[i].author}. ${libraryBooks[i].readflag}`;
+
+    const info = document.createElement("p");
+    info.textContent = `${libraryBooks[i].title} by ${libraryBooks[i].author}. ${libraryBooks[i].readflag}`;
+
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "Remove";
+    removeBtn.classList.add("removeBtn");
+
+
+    newCard.appendChild(info);
+    newCard.appendChild(removeBtn);
 
     newCard.classList.add("bookCard");
+    newCard.dataset.id = libraryBooks[i].id
 
     display.appendChild(newCard); 
 }

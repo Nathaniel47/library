@@ -8,8 +8,14 @@ body{
 }
 
 #display div{
+   display: flex;
+   flex-direction: column;
    border-left: 7px solid limegreen;
    border-radius: 7px;
    padding-left: 5px;
    width: 130px;
+}
+
+#display div>p{
+   flex: 1;
 }
