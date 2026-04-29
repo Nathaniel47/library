@@ -41,6 +41,33 @@ function Book(title, author, pages, readflag){
     this.id = crypto.randomUUID()
 }
 
+Book.prototype.toggleRead = function (){
+    if(this.readflag == "Read"){
+        this.readflag = "Not Read";
+    }
+    else if(this.readflag == "Not Read"){
+        this.readflag = "Reading";
+    }
+    else{
+        this.readflag = "Read"
+    }
+}
+
+//Convert raw objects in libraryBooks array into instances of the Book object (wrapping)
+for(let i = 0; i < libraryBooks.length; i++){
+    //get the book objects from the libraryBooks array
+    const rawData = libraryBooks[i];
+    
+    //convert to book instance using the book constructor
+    const bookInstance = new Book(rawData.title, rawData.author, rawData.pages, rawData.readflag);
+
+    //maintain the id of the raw data
+    bookInstance.id = rawData.id;
+
+    //replace old hardcoded books with the converted books
+    libraryBooks[i] = bookInstance;
+}
+
 
 function addBookToLibrary(title, author, pages, readflag){
     const newBook = new Book(title, author, pages, readflag)
@@ -55,9 +82,15 @@ function addBookToLibrary(title, author, pages, readflag){
     removeBtn.textContent = "Remove";
     removeBtn.classList.add("removeBtn");
 
+    const toggleRead = document.createElement("button");
+    toggleRead.textContent = "Toggle Read";
+    toggleRead.classList.add("toggleRead");
+
+
 
     newCard.appendChild(info);
     newCard.appendChild(removeBtn);
+    newCard.appendChild(toggleRead);
 
     newCard.classList.add("bookCard");
     newCard.dataset.id = newBook.id
@@ -69,18 +102,29 @@ const display = document.getElementById("display");
 
 //Add eventListener to remove a book
 display.addEventListener("click", (e) => {
-    if (e.target.classList.contains("removeBtn")){
-        //get the book id
+
+    //get the book id
         const bookId = e.target.parentElement.dataset.id;
 
         //use book ID to find and retrieve book index in array
         const bookIndex = libraryBooks.findIndex(book => book.id == bookId);
+
+        const book = libraryBooks[bookIndex];
+    
+    if (e.target.classList.contains("removeBtn")){
 
         //use book index in aray to remove from array
         libraryBooks.splice(bookIndex, 1);
 
         //remove book
         e.target.parentElement.remove();
+    }
+    else if(e.target.classList.contains("toggleRead")){
+        
+        book.toggleRead();
+
+        const info = e.target.parentElement.querySelector("p");
+        info.textContent = `${libraryBooks[bookIndex].title} by ${libraryBooks[bookIndex].author}. ${libraryBooks[bookIndex].readflag}`;
     }
 })
 
@@ -94,9 +138,13 @@ for(let i = 0;i<libraryBooks.length;i++){
     removeBtn.textContent = "Remove";
     removeBtn.classList.add("removeBtn");
 
+    const toggleRead = document.createElement("button");
+    toggleRead.textContent = "Toggle Read";
+    toggleRead.classList.add("toggleRead");
 
     newCard.appendChild(info);
     newCard.appendChild(removeBtn);
+    newCard.appendChild(toggleRead);
 
     newCard.classList.add("bookCard");
     newCard.dataset.id = libraryBooks[i].id
