@@ -1,0 +1,15 @@
+body{
+   box-sizing: border-box  ;
+}
+
+#display{
+   display:flex;
+   gap: 20px;
+}
+
+#display div{
+   border-left: 7px solid limegreen;
+   border-radius: 7px;
+   padding-left: 5px;
+   width: 130px;
+}
