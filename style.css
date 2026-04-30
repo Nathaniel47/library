@@ -11,7 +11,7 @@ body{
    background-color: bisque;
    display: flex;
    flex-direction: column;
-   border-left: 7px solid limegreen;
+   border-left: 7px solid rgb(39, 143, 155);
    border-radius: 7px;
    padding: 10px;
    width: 300px;
@@ -20,4 +20,10 @@ body{
 
 #display div>p{
    flex: 1;
+}
+
+#newBookBtn{
+   padding: 10px;
+   border-radius: 10px;
+   border: 10px;
 }
